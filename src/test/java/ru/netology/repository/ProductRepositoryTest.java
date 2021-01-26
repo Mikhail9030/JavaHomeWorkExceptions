@@ -5,35 +5,32 @@ import org.junit.jupiter.api.Test;
 import ru.netology.domain.Book;
 import ru.netology.exception.NotFoundException;
 import ru.netology.domain.Product;
-import ru.netology.domain.TShirt;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductRepositoryTest {
     private ProductRepository repository = new ProductRepository();
-    private Book book1 = new Book(1, "Книга", 50000, "АВтор", 450, 2010);
-    private Product product1 = new Product(3, "Продукт", 60000);
-    private TShirt tshirt1 = new TShirt(4, "TShirt", 40000, "white", "S");
+
+    private Product first = new Book(1, "One", 100, "AOne", 100, 2020);
+    private Product second = new Book(2, "Second", 200, "ASecond", 200, 2019);
 
     @BeforeEach
-    public void setUp() {
-        repository.save(book1);
-        repository.save(product1);
-        repository.save(tshirt1);
+    void setUp() {
+        repository.save(first);
+        repository.save(second);
     }
 
     @Test
-    public void removeByIdRight() {
-        repository.removeById(3);
-
-        Product[] expected = new Product[]{book1, tshirt1};
+    void removeById() {
+        repository.removeById(2);
         Product[] actual = repository.findAll();
+        Product[] expected = new Product[]{first};
         assertArrayEquals(expected, actual);
     }
 
-    @Test
-    public void removeByIdException() {
-        assertThrows(NotFoundException.class, () -> repository.removeById(2));
-    }
 
+    @Test
+    void shouldRemoveByIdNotExist(){
+        assertThrows(NotFoundException .class, () -> repository.removeById(3));
+    }
 }

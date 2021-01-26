@@ -1,15 +1,19 @@
 package ru.netology.domain;
 
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 
 public class Book extends Product {
     private String author;
     private int pages;
     private int publishedYear;
-
-    public Book() {
-        super();
-    }
 
     public Book(int id, String name, int price, String author, int pages, int publishedYear) {
         super(id, name, price);
@@ -18,52 +22,9 @@ public class Book extends Product {
         this.publishedYear = publishedYear;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
-
-    public int getPublishedYear() {
-        return publishedYear;
-    }
-
-    public void setPublishedYear(int publishedYear) {
-        this.publishedYear = publishedYear;
-    }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Book book = (Book) o;
-        return pages == book.pages &&
-                publishedYear == book.publishedYear &&
-                Objects.equals(author, book.author);
+    public boolean matches(String search) {
+        return super.matches(search) || author.equals(search);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), author, pages, publishedYear);
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "author='" + author + '\'' +
-                ", pages=" + pages +
-                ", publishedYear=" + publishedYear +
-                '}';
-    }
 }
